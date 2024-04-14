@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:get/get.dart';
 
 import '../modules/detail/bindings/detail_binding.dart';
@@ -27,7 +29,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.REPORT,
-      page: () => const ReportView(),
+      page: () => ReportView(),
       binding: ReportBinding(),
     ),
   ];

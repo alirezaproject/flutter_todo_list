@@ -15,6 +15,7 @@ class HomeController extends GetxController {
   final task = Rx<Task?>(null);
   final doingTodos = <dynamic>[].obs;
   final doneTodos = <dynamic>[].obs;
+  final tabindex = 0.obs;
 
   HomeController({
     required this.taskRepository,
@@ -119,5 +120,53 @@ class HomeController extends GetxController {
     doneTodos.add(doneTodo);
     doingTodos.refresh();
     doneTodos.refresh();
+  }
+
+  void deleteDoneTodo(dynamic doneTodo) {
+    int index = doneTodos.indexWhere((element) => mapEquals<String, dynamic>(doneTodo, element));
+    doneTodos.removeAt(index);
+    doneTodos.refresh();
+  }
+
+  bool isTodosEmpty(Task task) {
+    return task.todos == null || task.todos!.isEmpty;
+  }
+
+  int getDoneTodo(Task task) {
+    var res = 0;
+    for (var i = 0; i < task.todos!.length; i++) {
+      if (task.todos![i]['done']) {
+        res += 1;
+      }
+    }
+    return res;
+  }
+
+  void changeTabIndex(int index) {
+    tabindex.value = index;
+  }
+
+  int getTotalTask() {
+    var res = 0;
+    for (var i = 0; i < tasks.length; i++) {
+      if (tasks[i].todos != null) {
+        res += tasks[i].todos!.length;
+      }
+    }
+    return res;
+  }
+
+  int getTotalDoneTask() {
+    var res = 0;
+    for (var i = 0; i < tasks.length; i++) {
+      if (tasks[i].todos != null) {
+        for (var j = 0; j < tasks[i].todos!.length; j++) {
+          if (tasks[i].todos![j]['done']) {
+            res += 1;
+          }
+        }
+      }
+    }
+    return res;
   }
 }
